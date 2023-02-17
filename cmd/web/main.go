@@ -9,9 +9,12 @@ import (
 
 func main() {
 	var AppSettings AppConfig
-	AppSettings.Init()
 
-	log.Println(AppSettings.ENVIRONMENT)
+	AppSettings.Init()
+	ConnectDB(&AppSettings)
+	InitialMigrations(&AppSettings)
+
+	log.Println("Environment :", AppSettings.ENVIRONMENT)
 
 	server := gin.Default()
 	server.GET("/ping", func(c *gin.Context) {

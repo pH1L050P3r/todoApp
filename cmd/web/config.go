@@ -6,6 +6,7 @@ import (
 	"reflect"
 
 	"github.com/spf13/viper"
+	"gorm.io/gorm"
 )
 
 type Environment struct {
@@ -24,6 +25,7 @@ type Environment struct {
 
 type AppConfig struct {
 	ENVIRONMENT Environment
+	DB          *gorm.DB
 }
 
 func (Config *AppConfig) Init() {
@@ -63,5 +65,14 @@ func InitEnvironment(e *Environment) {
 			log.Printf("%s : %s", variable, value)
 		}
 	}
+
+	e.RDS_CONNECT_STRING = fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s",
+		e.RDS_HOSTNAME,
+		e.RDS_USERNAME,
+		e.RDS_PASSWORD,
+		e.RDS_DB_NAME,
+		e.RDS_PORT,
+	)
 
 }
