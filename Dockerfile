@@ -1,4 +1,4 @@
-FROM golang:1.16-alpine
+FROM golang:1.18-alpine
 
 WORKDIR /project
 COPY go.mod ./
@@ -11,6 +11,6 @@ COPY *.go ./
 COPY ./pkg/ ./pkg/
 COPY ./cmd/ ./cmd/
 
-RUN go build -o ./build/app ./cmd/web/*.go
+RUN go build -o ./build/app.o ./cmd/web/*.go
 
 EXPOSE 8000
