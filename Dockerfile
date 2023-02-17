@@ -19,6 +19,10 @@ FROM alpine:latest
 
 WORKDIR /project/
 
+ENV WAIT_VERSION 2.7.2
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /project/wait
+RUN chmod +x /project/wait
+
 COPY --from=builder /project/build/app.o .
 COPY --from=builder /project/.env .
 
