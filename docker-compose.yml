@@ -7,6 +7,14 @@ services:
       [
         "./build/app.o"
       ]
+    env_file: .env
+    environment:
+      - ENVIRONMENT=$ENVIRONMENT
+      - RDS_USERNAME=$RDS_USERNAME
+      - RDS_PASSWORD=$RDS_PASSWORD
+      - RDS_HOSTNAME=$RDS_HOSTNAME
+      - RDS_PORT=$RDS_PORT
+      - RDS_DB_NAME=$RDS_DB_NAME
     ports:
       - "8080:8000"
     depends_on:
@@ -15,6 +23,13 @@ services:
   db:
     image: postgres:14
     env_file: .env
+    environment:
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - POSTGRES_PORT=$POSTGRES_PORT
+      - POSTGRES_HOST=$POSTGRES_HOST
+      - POSTGRES_DB=$POSTGRES_DB
+      - POSTGRES_HOST_AUTH_METHOD=$POSTGRES_HOST_AUTH_METHOD
     ports:
       - 5432:5432
     volumes:

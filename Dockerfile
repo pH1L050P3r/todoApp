@@ -10,6 +10,7 @@ COPY *.go ./
 
 COPY ./pkg/ ./pkg/
 COPY ./cmd/ ./cmd/
+COPY ./.env ./.env
 
 RUN go build -o ./build/app.o ./cmd/web/*.go
 
