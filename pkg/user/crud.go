@@ -1,5 +1,11 @@
 package user
 
+func GetUserByUsername(username string) (*User, error) {
+	user := &User{}
+	err := Repository.App.DB.First(user, "username = ?", username)
+	return user, err.Error
+}
+
 // func GetById(userId string) *User {
 // 	// TODO : implement
 // }
