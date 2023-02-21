@@ -5,24 +5,27 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/pH1L050P3r/todoApp/pkg/config"
+	"github.com/pH1L050P3r/todoApp/pkg/objects"
 )
 
 func main() {
-	var AppSettings AppConfig
+	var AppSettings objects.AppConfig
 
-	AppSettings.Init()
-	ConnectDB(&AppSettings)
-	InitialMigrations(&AppSettings)
+	config.Init(&AppSettings)
+	config.ConnectDB(&AppSettings)
+	config.InitialMigrations(&AppSettings)
+	config.SetRepository(&AppSettings)
+	config.InitRoutes(&AppSettings)
 
 	log.Println("Environment :", AppSettings.ENVIRONMENT)
 
-	server := gin.Default()
-	server.GET("/ping", func(c *gin.Context) {
+	AppSettings.SERVER.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "Server is running",
 		})
 	})
 
 	serverURL := "0.0.0.0:8000"
-	server.Run(serverURL)
+	AppSettings.SERVER.Run(serverURL)
 }

@@ -1,13 +1,15 @@
-package main
+package config
 
 import (
 	"log"
 
+	"github.com/pH1L050P3r/todoApp/pkg/objects"
+	"github.com/pH1L050P3r/todoApp/pkg/user"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-func ConnectDB(app *AppConfig) {
+func ConnectDB(app *objects.AppConfig) {
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DSN: app.ENVIRONMENT.RDS_CONNECT_STRING,
@@ -19,6 +21,6 @@ func ConnectDB(app *AppConfig) {
 	app.DB = db
 }
 
-func InitialMigrations(app *AppConfig) {
-	//TODO:Add models here for migration
+func InitialMigrations(app *objects.AppConfig) {
+	app.DB.AutoMigrate(&user.User{})
 }

@@ -1,38 +1,22 @@
-package main
+package config
 
 import (
 	"fmt"
 	"log"
 	"reflect"
 
+	"github.com/gin-gonic/gin"
+	"github.com/pH1L050P3r/todoApp/pkg/objects"
+	"github.com/pH1L050P3r/todoApp/pkg/user"
 	"github.com/spf13/viper"
-	"gorm.io/gorm"
 )
 
-type Environment struct {
-	ENVIRONMENT string
-
-	WEB_HOST string
-	WEB_PORT string
-
-	RDS_USERNAME       string
-	RDS_PASSWORD       string
-	RDS_HOSTNAME       string
-	RDS_PORT           string
-	RDS_DB_NAME        string
-	RDS_CONNECT_STRING string
-}
-
-type AppConfig struct {
-	ENVIRONMENT Environment
-	DB          *gorm.DB
-}
-
-func (Config *AppConfig) Init() {
+func Init(Config *objects.AppConfig) {
 	InitEnvironment(&Config.ENVIRONMENT)
+	SetupServer(Config)
 }
 
-func InitEnvironment(e *Environment) {
+func InitEnvironment(e *objects.Environment) {
 	viper.SetConfigFile(".env")
 
 	err := viper.ReadInConfig()
@@ -75,4 +59,12 @@ func InitEnvironment(e *Environment) {
 		e.RDS_PORT,
 	)
 
+}
+
+func SetRepository(app *objects.AppConfig) {
+	user.SetRepository(app)
+}
+
+func SetupServer(app *objects.AppConfig) {
+	app.SERVER = gin.Default()
 }
