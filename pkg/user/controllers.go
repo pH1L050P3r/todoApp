@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/pH1L050P3r/todoApp/pkg/utils"
 )
 
 func GetUserById(c *gin.Context) {
@@ -33,11 +34,12 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	hashPassword, _ := utils.HashPassword(userInput.Password)
 	user := User{
 		Username:  userInput.Username,
 		FirstName: userInput.FirstName,
 		LastName:  userInput.LastName,
-		Password:  userInput.Password,
+		Password:  hashPassword,
 	}
 
 	err = InsertUser(&user)
